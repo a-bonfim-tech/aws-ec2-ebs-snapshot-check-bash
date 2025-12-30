@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 #!/bin/bash
 export PATH=$PATH:/usr/local/bin/:/usr/bin
 
