@@ -1,79 +1,97 @@
-aws-ec2-ebs-snapshot-check-bash
-===================================
+Cloud Security – EBS Snapshot Audit (AWS)
 
-####Amazon Web Services EBS Snapshot Verification - Bash Script
+Security-focused audit script for Amazon EC2 EBS snapshots, designed to support cloud hygiene, least privilege, and governance controls.
 
-Written by  **[Casey Labs Inc.] (http://www.caseylabs.com)** and **[Bleeding Edge Solutions] (http://www.bledsol.net)**
-*Contact us for all your Amazon Web Services Consulting needs!*
+Why this exists
 
-===================================
+EBS snapshots are frequently overlooked assets in AWS environments.
+Unmanaged snapshots can lead to:
 
-Modernized and security-hardened version of an EBS snapshot audit script, aligned with least privilege, logging, and cloud governance best practices.
-==================================
+data exposure
 
-**How it works:**
-check-snapshots.sh will:
-- Gather a list of all running EC2 instances, and of all EBS volumes attached to those instances.
-- Check the snapshots times associated with each in-use EBS volume, and alert if there are no recent snapshots.
+compliance violations
 
-Pull requests greatly welcomed!
+unnecessary cost
 
-===================================
+orphaned backups with unclear ownership
 
-**REQUIREMENTS**
+This project demonstrates how simple automation can support cloud security posture management.
 
-**IAM User:** This script requires that a new user (e.g. ebs-snapshot) be created in the IAM section of AWS.   
-Here is a sample IAM policy for AWS permissions that this new user will require:
+Threat model (simplified)
 
-```
+Assets
+
+EBS snapshots
+
+EC2 volumes
+
+Account metadata
+
+Threats
+
+Orphaned snapshots with sensitive data
+
+Excessive IAM permissions
+
+Lack of visibility and ownership
+
+Controls
+
+Read-only audit via AWS CLI
+
+Minimal IAM policy
+
+Deterministic output for logging
+
+Security & Governance considerations
+
+Principle of Least Privilege (IAM)
+
+No write operations
+
+No resource modification
+
+Safe for regulated environments (audit-only)
+
+Mapped controls:
+
+CIS AWS Foundations
+
+ISO 27001 – Asset Management
+
+Backup & Retention hygiene
+
+Required IAM permissions (minimum)
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Stmt1426256275000",
-            "Effect": "Allow",
-            "Action": [
-                "ec2:DescribeInstances",
-                "ec2:DescribeSnapshots",
-                "ec2:DescribeVolumes"
-            ],
-            "Resource": [
-                "*"
-            ]
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeSnapshots",
+        "ec2:DescribeVolumes"
+      ],
+      "Resource": "*"
+    }
+  ]
 }
-```
-<br />
 
-**AWS CLI:** This script requires the AWS CLI tools to be installed.
+Use cases
 
-Linux install instructions for AWS CLI:
- - Make sure Python pip is installed (e.g. yum install python-pip, or apt-get install python-pip)
- - Then run: 
-```
-pip install awscli
-```
-Once the AWS CLI has been installed, you'll need to configure it with the credentials of the IAM user created above:
-(Note: this step can be skipped if you have an IAM Role setup for your instance to use the IAM policy listed above.)
+Cloud security reviews
 
-```
-sudo aws configure
-```
+Incident response triage
 
-_Access Key & Secret Access Key_: enter in the credentials generated above for the new IAM user.
+Compliance audits
 
-_Region Name_: the region that this instance is currently in: ```i.e. us-east-1, eu-west-1, etc.```
+Cost and hygiene analysis
 
-_Output Format_: enter "text"
+Disclaimer
 
+This project is intended for educational and audit purposes only.
+No resources are modified.
 
-Then copy this Bash script to /opt/aws/ebs-snapshot.sh and make it executable:
-```
-chmod +x /opt/aws/check-snapshots.sh
-```
+Author
 
-To manually test the script:
-```
-sudo /opt/aws/check-snapshots.sh
-```
+Cloud Security Architect
+Focused on governance, Zero Trust, and cloud risk management.
