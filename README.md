@@ -8,6 +8,9 @@ Written by  **[Casey Labs Inc.] (http://www.caseylabs.com)** and **[Bleeding Edg
 
 ===================================
 
+Modernized and security-hardened version of an EBS snapshot audit script, aligned with least privilege, logging, and cloud governance best practices.
+==================================
+
 **How it works:**
 check-snapshots.sh will:
 - Gather a list of all running EC2 instances, and of all EBS volumes attached to those instances.
